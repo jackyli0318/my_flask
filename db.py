@@ -4,8 +4,8 @@ from sqlalchemy import create_engine
 HOSTNAME = '127.0.0.1'
 PORT = '3306'
 DATABASE = 'flask'
-USERNAME = 'root'
-PASSWORD = ''
+USERNAME = 'jacky'
+PASSWORD = 'jacky'
 DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}'.format(USERNAME,PASSWORD,HOSTNAME,PORT,DATABASE)
 # "mysql+pymysql://root:@localhost:3306/test",echo=True
 
