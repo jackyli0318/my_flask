@@ -104,7 +104,7 @@ def show_list():
     keyword = request.args.get('keyword', "")
 
     # result from mongo for pagination
-    posts, page_sum = Post.find_pagination(page=page)
+    posts, page_sum = Post.find_pagination(page=page, keyword=keyword)
     # posts, page_sum = es.search(page=page, keyword=keyword)
 
     has_prev = False

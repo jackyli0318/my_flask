@@ -6,6 +6,7 @@ from elasticsearch import Elasticsearch
 import json
 import pymongo
 from bson.objectid import ObjectId
+import re
 
 
 Session = sessionmaker(bind=engine)
@@ -111,8 +112,10 @@ class Post:
         # return post
 
     @classmethod
-    def find_pagination(cls, page, limit=LIMIT):
-        posts = post_tb.find().sort('_id', pymongo.ASCENDING)
+    def find_pagination(cls, page, keyword, limit=LIMIT):
+
+        keyword = re.compile('.*'+keyword+'.*', re.IGNORECASE)
+        posts = post_tb.find({"$or":[ {"title": keyword}, {"content": keyword}, {"author": keyword}]}).sort('_id', pymongo.ASCENDING)
         cnt = posts.count()
         if page <= 0:
             page = 1
@@ -132,7 +135,8 @@ class Post:
             last_id = posts[offset]['_id']
         else:
             last_id = ""
-        new_posts = post_tb.find({'_id': {'$gte': last_id}}).sort('_id', pymongo.ASCENDING).limit(limit)
+        # new_posts = post_tb.find({'_id': {'$gte': last_id}}).sort('_id', pymongo.ASCENDING).limit(limit)
+        new_posts = post_tb.find({"$and":[{'_id': {'$gte': last_id}}, {"$or":[ {"title": keyword}, {"content": keyword}, {"author": keyword}]}]}).sort('_id', pymongo.ASCENDING).limit(limit)
         return new_posts, page_sum
 
 
