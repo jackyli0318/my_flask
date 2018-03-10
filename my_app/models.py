@@ -128,8 +128,10 @@ class Post:
         if cnt % limit:
             page_sum += 1
 
-        last_id = posts[offset]['_id']
-
+        if posts:
+            last_id = posts[offset]['_id']
+        else:
+            last_id = ""
         new_posts = post_tb.find({'_id': {'$gte': last_id}}).sort('_id', pymongo.ASCENDING).limit(limit)
         return new_posts, page_sum
 
