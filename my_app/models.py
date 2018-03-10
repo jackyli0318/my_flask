@@ -21,7 +21,7 @@ LIMIT = 10
 #Mongo DB
 mongo = pymongo.MongoClient("localhost", 27017)
 flask_db = mongo.flask
-post_tb = flask_db.post
+post_tb = flask_db.new_post
 
 
 # ElasticSearch
@@ -121,14 +121,14 @@ class Post:
 
         if limit < 0:
             limit = -limit
-        if offset >= cnt:
+        if offset >= cnt and cnt > limit:
             offset = cnt - limit
 
         page_sum = int(cnt / limit)
         if cnt % limit:
             page_sum += 1
 
-        if posts:
+        if cnt > 0:
             last_id = posts[offset]['_id']
         else:
             last_id = ""
