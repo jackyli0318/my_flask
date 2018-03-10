@@ -164,7 +164,7 @@ def show_detail():
 @login_required
 def create_post():
     # mongo
-    for i in range(1,10):
+    for i in range(1,100):
         post = Post("Energy News!"+str(i), "First news!!!"+str(i), "Goo"+str(i))
         post.insert_post()
         print("Insert one post in mondoDB.")
