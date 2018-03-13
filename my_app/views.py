@@ -2,7 +2,7 @@ from my_app import app
 from functools import wraps
 from db import engine
 from flask import render_template, session, redirect, request, jsonify
-from .models import add_user, check_user, login_check, Post
+from .models import add_user, check_user, login_check, Post, es
 
 
 # check whether the user has logged in or not      By Zhi
@@ -121,8 +121,8 @@ def show_list():
     keyword = request.args.get('keyword', "")
 
     # result from mongo for pagination
-    posts, page_sum = Post.find_pagination(page=page, keyword=keyword)
-    # posts, page_sum = es.search(page=page, keyword=keyword)
+    # posts, page_sum = Post.find_pagination(page=page, keyword=keyword)
+    posts, page_sum = es.search(page=page, keyword=keyword)
 
     has_prev = False
     has_next = False

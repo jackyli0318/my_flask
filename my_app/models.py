@@ -89,7 +89,7 @@ class ES():
         return ret, page_sum
 
 
-# es = ES()
+es = ES()
 
 
 class Post:
