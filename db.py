@@ -1,4 +1,6 @@
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import NullPool
 
 # 数据库的配置变量
 HOSTNAME = '127.0.0.1'
@@ -17,3 +19,4 @@ with engine.connect() as con:
     print("Database connected successfully!")
     # rs = con.execute('SELECT 1')
     # print (rs.fetchone())
+

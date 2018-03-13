@@ -158,26 +158,39 @@ class User(Base):
 
 def add_user(username, password, email, first_name, last_name):
     tmp_user = User(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-    session.add(tmp_user)
-    session.commit()
+    try:
+        session.add(tmp_user)
+        session.commit()
+    except:
+        session.rollback()
+    finally:
+        session.close()
 
 
 # if not exist, return false
 def check_user(username):
-    for name in session.query(User.username).filter(User.username == username):
-        # print (name)
-        return True
-
-    return False
+    flag = False
+    try:
+        for name in session.query(User.username).filter(User.username == username):
+            flag = True
+    except:
+        session.rollback()
+    finally:
+        session.close()
+        return flag
 
 
 # if not exist, return false
 def login_check(username, password):
-
-    for user in session.query(User).filter(User.username==username, User.password==password):
-        return True
-
-    return False
+    flag = False
+    try:
+        for user in session.query(User).filter(User.username==username, User.password==password):
+            flag = True
+    except:
+        session.rollback()
+    finally:
+        session.close()
+        return flag
 
 
 Base.metadata.create_all()

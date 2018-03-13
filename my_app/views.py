@@ -29,7 +29,8 @@ def sign_up():
     if 'username' in session:
         return redirect('/list')
     if request.method == "GET":
-        return render_template('sign_up.html')
+        info = "Tips: Username and password can not accept special characters."
+        return render_template('sign_up.html', info=info)
     else:
         error = None
         username = request.form['username']
@@ -41,6 +42,14 @@ def sign_up():
 
         flag = username and password and email and first_name and last_name
         psw_equal = password == con_psw
+
+        if not username.isalnum():
+            error = "Username should not contain special characters."
+            return render_template('sign_up.html', error=error)
+
+        if not password.isalnum():
+            error = "Password should not contain special characters."
+            return render_template('sign_up.html', error=error)
 
         if flag:
             if psw_equal:
@@ -69,6 +78,14 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
+        if not username.isalnum():
+            error = "Username should not contain special characters."
+            return render_template('login.html', error=error)
+
+        if not password.isalnum():
+            error = "Password should not contain special characters."
+            return render_template('login.html', error=error)
 
         if login_check(username, password):
             session['username'] = username
